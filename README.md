@@ -19,3 +19,7 @@ Known issues:
 Dependencies:
 - rtcwake
 - screen
+
+## Important
+
+Change the variable "USERNAME=" at the top of sleepwalk to your own user's name so that the notification feedback works.
