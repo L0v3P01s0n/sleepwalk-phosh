@@ -1,0 +1,21 @@
+#!/bin/bash
+
+ID=""
+
+while true; do
+
+	NEWID=$(cat /tmp/sleepwalk-notify | grep -a Notify | tail -n 1 | cut -d ' ' -f3 | cut -d '=' -f2)
+
+	if [ "$NEWID" != "" ]; then
+		if [ "$ID" == "" ]; then
+			ID=$NEWID
+			fbcli -t -1 -E message-new-sms
+		elif [ "$ID" != "$NEWID" ]; then
+			ID=$NEWID
+			fbcli -t -1 -E message-new-sms
+		fi
+	fi
+
+	sleep 0.5
+
+done

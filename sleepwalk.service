@@ -1,5 +1,5 @@
 [Unit]
-Description=Deep-Sleep-Service for PinePhone with support for periodic wake-ups to get notifications
+Description=Deep-Sleep-Service for PinePhone that supports periodic wake-ups to get notifications and GNOME sleep inhibitors.
 
 [Service]
 User=root
