@@ -8,7 +8,7 @@ How to install and use:
 - Disable deep sleep in your desktop managers settings such as phosh
 - Systemd distros (Such as Mobian, Manjaro, or Arch): 
     - Copy the systemd service file 'sleepwalk.service' to '/etc/systemd/system/'
-    - Execute 'systemctl enable sleepwalk.service' and 'systemcl start sleepwalk.service' to enable and start the service
+    - Execute 'sudo systemctl enable --now sleepwalk' to enable and start the service
 - Openrc distros (Such as PostmarketOS):
     - Copy the openrc service file 'sleepwalkrc' to '/etc/init.d'
     - Execute 'rc-update add sleepwalkrc' and 'service sleepwalkrc start' to enable and start the service
