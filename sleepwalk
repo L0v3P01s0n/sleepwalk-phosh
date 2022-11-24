@@ -127,6 +127,7 @@ if [ "$1" == "start" ]; then
 
 	trap "kill $NOTIFICATION_WATCHER; $0 stop" EXIT
 	touch "$NOTIFICATION_FILE"
+	sleep 60
 	notification_watcher &
 	NOTIFICATION_WATCHER=$!
 	su -c "screen -S sleepwalk-notifier -dm bash -c 'export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && bash -x sleepwalk-notifier'" $USERNAME
