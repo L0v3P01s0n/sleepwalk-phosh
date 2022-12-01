@@ -131,6 +131,7 @@ if [ "$1" == "start" ]; then
 	notification_watcher &
 	NOTIFICATION_WATCHER=$!
 	su -c "screen -S sleepwalk-notifier -dm bash -c 'export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && bash -x sleepwalk-notifier'" $USERNAME
+	su -c "export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'" $USERNAME
 
 	while [ -d "$LOCK_DIR" ]; do
 		while ! can_sleep; do
@@ -167,6 +168,7 @@ elif [ "$1" == "stop" ]; then
 	rmdir "$LOCK_DIR" 2>/dev/null
 	rm "$NOTIFICATION_FILE" 2>/dev/null
 	su -c "screen -S sleepwalk-notifier -X quit" $USERNAME
+	su -c "export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'" $USERNAME
 else
 	echo "Unknown command: $1" >&2
 	exit 1
