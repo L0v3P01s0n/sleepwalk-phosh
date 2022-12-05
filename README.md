@@ -7,6 +7,7 @@ Added support for inhibiting suspend and going idle when mpv is running, as it i
 
 How to install and use:
 - Save the 'sleepwalk', 'sleepwalk-notifier' and 'playerguard' scripts to /usr/local/bin
+
 ~~- Disable deep sleep in phosh~~ (No longer needed. When the service is started it will automagically disable it by itself, and turn it back on when the service is stopped)
 - Systemd distros (Such as Mobian, Manjaro, or Arch): 
     - Copy the systemd service file 'sleepwalk.service' to '/etc/systemd/system/'
