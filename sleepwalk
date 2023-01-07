@@ -9,6 +9,48 @@ LOCK_DIR="/tmp/sleepwalk"
 IS_NOTIFICATION=0
 NOTIFICATION_FILE="/tmp/sleepwalk-notify"
 USERNAME="manjaro"
+MODEMRESET="1"
+SLEEPCHARGE="0"
+
+
+sleepcharge() {
+
+if [ "$SLEEPCHARGE" == "0" ]; then
+	if [ -d "/sys/class/power_supply/ip5xxx-battery/" ]; then
+		if [ "$(cat /sys/class/power_supply/ip5xxx-battery/status)" == "Charging" ]; then
+			return 1
+		else
+			return 0
+		fi
+	else
+		if [ "$(cat /sys/class/power_supply/axp20x-battery/status)" == "Charging" ]; then
+			return 1
+		else
+			return 0
+		fi
+	fi
+
+else
+
+	return 0
+
+fi
+
+}
+
+
+modem-check(){
+
+if [ "$MODEMRESET" == "1" ]; then
+	if [ -e /dev/ttyUSB1 ]; then
+		return 0
+	else
+		return 1
+	fi
+else
+	return 0
+fi
+}
 
 
 start_deep_sleep() {
@@ -51,11 +93,12 @@ reset_wake_time() {
 
 can_sleep() {
 
-	if [ "$(cat /sys/class/backlight/backlight/bl_power)" = "0" ] || [ "$(cat /sys/class/power_supply/axp20x-usb/online)" = "1" ] || [ "$(su -c 'export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && gnome-session-inhibit -l | grep suspend' $USERNAME)" != "" ]; then
-		return 1
-	else
-		return 0
-	fi
+if [ "$(cat /sys/class/backlight/backlight/bl_power)" = "0" ] || ! sleepcharge || [ "$(su -c 'export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && gnome-session-inhibit -l | grep suspend' $USERNAME)" != "" ] || ! modem-check; then
+	return 1
+else
+	return 0
+fi
+
 }
 
 led_sleep() {
@@ -136,6 +179,9 @@ if [ "$1" == "start" ]; then
 
 	while [ -d "$LOCK_DIR" ]; do
 		while ! can_sleep; do
+			if [ "$KBOFF" == "1" ]; then
+				su -c "bash -c \"export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && notify-send -a sleepwalk -i battery-missing 'Keyboard battery offline. Press the keyboard side button'\"" $USERNAME
+			fi
 			sleep 60
 		done
 
@@ -143,6 +189,7 @@ if [ "$1" == "start" ]; then
 		schedule_wake_time
 
 		check_notifications
+
 		while ! start_deep_sleep; do
 			reset_wake_time
 			echo "Failed going to sleep, try again in $WAKE_SECS seconds ..." >&2
@@ -158,6 +205,12 @@ if [ "$1" == "start" ]; then
 		else
 			SLEEP_SECS=$SLEEP_MAX_SECS
 		fi
+
+		if [ -d "/sys/class/power_supply/ip5xxx-battery/" ]; then
+                        if [ "$KBOFF" == "1" ]; then
+				su -c "bash -c \"export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && notify-send -a sleepwalk -i battery-missing 'Keyboard battery offline. Press the keyboard's side button'\"" $USERNAME
+			fi
+                fi
 
 		wait_for_notifications
 	done
