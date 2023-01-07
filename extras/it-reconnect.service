@@ -1,0 +1,13 @@
+[Unit]
+Description=Constantly try to reconnect to InfiniTime device.
+ConditionUser=!root
+
+
+[Service]
+WorkingDirectory=/
+ExecStart=it-reconnect
+ExecStop=pkill it-reconnect
+Restart=always
+
+[Install]
+WantedBy=default.target

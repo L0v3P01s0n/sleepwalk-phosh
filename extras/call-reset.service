@@ -1,0 +1,13 @@
+[Unit]
+Description=Restart pulseaudio when a call finished.
+ConditionUser=!root
+
+
+[Service]
+WorkingDirectory=/
+ExecStart=call-reset
+ExecStop=pkill call-reset
+Restart=always
+
+[Install]
+WantedBy=default.target
