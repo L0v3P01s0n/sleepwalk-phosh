@@ -1,0 +1,12 @@
+[Unit]
+Description=Automatically restart PinePhone's modem when it crashes
+
+[Service]
+User=root
+WorkingDirectory=/
+ExecStart=modem-reset
+ExecStop=pkill modem-reset
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

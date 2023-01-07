@@ -1,0 +1,26 @@
+#!/bin/bash
+
+PINCODE=23443
+
+sleep 300
+
+while true; do
+
+	if [ -e /dev/ttyUSB1 ]; then
+		MOBILECON=$(nmcli c show -a | grep mobiledata)
+		sleep 5
+	else
+		systemctl restart eg25-manager
+		sleep 40
+		MODEMID=$(mmcli -L | cut -d '/' -f 6 | cut -d ' ' -f 1)
+		mmcli -i $MODEMID --pin=$PINCODE
+		if [ "$MOBILECON" != "" ]; then
+			nmcli c down mobiledata
+			sleep 1
+			nmcli c up mobiledata
+		fi
+	fi
+
+sleep 10
+
+done
