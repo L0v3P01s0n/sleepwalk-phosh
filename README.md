@@ -52,6 +52,11 @@ If you plan on using modem-reset, also change the PINCODE variable at the top of
 If you are experiencing charging problems with the keyboard case like I did, you might want to check out this (https://xff.cz/git/pinephone-keyboard/tree/) and this (https://codeberg.org/phalio/ppkbbat-tools). While using ppkbbat-tools the automatic mode could work for you or not, just read the documentation and try until you get it right so that both PinePhone and keyboard charge accordingly.
 
 
+## About modem-reset
+
+modem-reset checks for a network connection named 'mobiledata' to re-enable mobile data connectivity, so you need to change your current data connection name to 'mobiledata'. To find which one of them is your data connection, go to settings and turn on mobile data. Then, on the terminal, execute 'nmcli c show --active' to see your active connections. Search for the one that has the type 'gsm' and device 'cdc-wdm0' and note down its UUID. Last step is to change its name executing 'sudo nmcli c mod <YOUR_UUID_HERE> connection.id mobiledata'. That's it!
+
+
 ## EXTRAS!
 
 I included some optional scripts I personally made and use every day to daily drive my PinePhone. You might want to use them in addition to sleepwalk or on their own. I hope these are useful to you! <3
@@ -65,4 +70,4 @@ I included some optional scripts I personally made and use every day to daily dr
 
 ## Contributing
 
-If you want to contribute the project you can either donate me at https://ko-fi.com/l0v3p01s0n, spread the word so more people know about the project (I could get some contributors or some useful feedback that way) or just help me with the code yourself! Whatever the case, please open up a new issue to suggest changes/improvements or report bugs.
+If you want to contribute the project you can either donate me at https://ko-fi.com/l0v3p01s0n, spread the word so more people know about the project (I could get some contributors or some useful feedback that way) or just help me with the code yourself! Whatever the case, please open up a new issue if you want to suggest changes/improvements or report bugs.
