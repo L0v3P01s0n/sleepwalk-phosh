@@ -3,10 +3,10 @@
 while true; do
 
 	if [ "$(pidof mpv)" != "" ]; then
-                gnome-session-inhibit --app-id playerguard --reason "audio/video player running" --inhibit idle:suspend sleep 60
+                gnome-session-inhibit --app-id playerguard --reason "audio/video player running" --inhibit idle:suspend sleep 61
 
 	elif [ "$(playerctl status)" == "Playing" ]; then
-		gnome-session-inhibit --app-id playerguard --reason "audio/video player running" --inhibit suspend sleep 60
+		gnome-session-inhibit --app-id playerguard --reason "audio/video player running" --inhibit suspend sleep 61
 
 	fi
 sleep 5
