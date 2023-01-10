@@ -14,12 +14,12 @@ If you don't plan on using modem-reset or just having it disabled to enable it w
 
 When new notifications are available, it will trigger sound and vibration (depending on your notification profile: active, vibration only or silence) and the LED color will turn to blue (constant blue during sleep; blinking blue during wake-time).
 
-Added support for inhibiting suspend and going idle when mpv is running, as it is not detected as a video/audio player, as well as inhibiting only suspend when any other detected audio/video player is playing media. Also added keyboard case support: if they keyboard's battery is present, to check if the charging cable is plugged in, it will see if the keyboard's battery is charging instead of the internal one. This allows the script to sleep even if the internal battery is charging as long as the keyboard one isn't.
+Added support for checking when mpv is running as it is not detected as a video/audio player, and then inhibiting idle and suspend if it is running. Also it inhibits only suspend when any other detected audio/video player is playing media. Also added keyboard case support: if they keyboard's battery is present, to check if the charging cable is plugged in, it will see if the keyboard's battery is charging instead of the internal one. This allows the script to sleep even if the internal battery is charging as long as the keyboard one isn't.
 
 (DISCLAIMER: WHEN THE KEYBOARD IS ATTACHED, PLEASE ONLY CHARGE THE PHONE AND KEYBOARD FROM THE KEYBOARD'S PORT TO AVOID ANY POTENTIAL DAMAGE TO THE KEYBOARD AS WELL AS THE PHONE AND THEIR BATTERIES. You can use the phone's port for anything other than charging AS LONG AS the keyboard ISN'T providing energy to the internal battery. For more information about this, please refer to https://xnux.eu/pinephone-keyboard/faq.html)
 
 How to install and use:
-- Save the 'sleepwalk', 'sleepwalk-notifier' and 'playerguard' (modem-reset too if you plan to use it) scripts to /usr/local/bin
+- Save the 'sleepwalk' and 'sleepwalk-notifier' (modem-reset too if you plan to use it) scripts to /usr/local/bin
 
 ~~- Disable deep sleep in phosh~~
 (No longer needed. When the service is started it will automagically disable it by itself, and turn it back on when the service is stopped)
