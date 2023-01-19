@@ -9,7 +9,7 @@ LOCK_DIR="/tmp/sleepwalk"
 IS_NOTIFICATION=0
 NOTIFICATION_FILE="/tmp/sleepwalk-notify"
 USERNAME="manjaro"
-MODEMRESET="1"
+MODEMRESET="0"
 SLEEPCHARGE="0"
 
 
@@ -64,7 +64,11 @@ modem-check(){
 
 if [ "$MODEMRESET" == "1" ]; then
 	if [ -e /dev/ttyUSB1 ]; then
-		return 0
+		if [ "$(mmcli -m any --voice-list-calls | grep 'freedesktop')" != "" ]; then
+			return 1
+		else
+			return 0
+		fi
 	else
 		return 1
 	fi
@@ -114,7 +118,7 @@ reset_wake_time() {
 
 can_sleep() {
 
-if ! playerguard || [ "$(cat /sys/class/backlight/backlight/bl_power)" = "0" ] || ! sleepcharge || [ "$(su -c 'export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && gnome-session-inhibit -l | grep suspend' $USERNAME)" != "" ] || ! modem-check || [ "$(mmcli -m any --voice-list-calls)" != "No calls were found" ]; then
+if ! playerguard || [ "$(cat /sys/class/backlight/backlight/bl_power)" = "0" ] || ! sleepcharge || [ "$(su -c 'export DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus && gnome-session-inhibit -l | grep suspend' $USERNAME)" != "" ] || ! modem-check || [ "$(iw dev wlan0 info | grep 'type' | cut -d ' ' -f2)" == "AP" ]; then
 	return 1
 else
 	return 0
