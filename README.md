@@ -12,7 +12,7 @@ By default, its behavior is the following: it waits 1 minute for the mobile envi
 
 If any of this conditions are met, the phone won't sleep and instead it will wait 1 minute before checking again. By default it is assumed that the modem-reset script is going to be used to restart the modem when it crashes, automatically entering the pincode and re-enabling mobile-data connectivity if it was enabled before crashing.
 
-If you don't plan on using modem-reset or just having it disabled to enable it when you want to and you want the phone to sleep even if the modem isn't present, you can flip the variable MODEMRESET at the top of the script to 0 instead of 1. If you want the phone to sleep even while having the charger plugged in, same thing goes, but backwards: flip the variable SLEEPCHARGE from the top of the script from 0 to 1.
+If you want the phone to sleep even while having the charger plugged in: flip the variable SLEEPCHARGE from the top of the script from 0 to 1.
 
 When new notifications are available, it will trigger sound and vibration (depending on your notification profile: active, vibration only or silence) and the LED color will turn to blue (constant blue during sleep; blinking blue during wake-time).
 
@@ -21,13 +21,13 @@ Added support for checking when mpv is running as it is not detected as a video/
 (DISCLAIMER: WHEN THE KEYBOARD IS ATTACHED, PLEASE ONLY CHARGE THE PHONE AND KEYBOARD FROM THE KEYBOARD'S PORT TO AVOID ANY POTENTIAL DAMAGE TO THE KEYBOARD AS WELL AS THE PHONE AND THEIR BATTERIES. You can use the phone's port for anything other than charging AS LONG AS the keyboard ISN'T providing energy to the internal battery. For more information about this, please refer to https://xnux.eu/pinephone-keyboard/faq.html)
 
 How to install and use:
-- Save the 'sleepwalk' and 'sleepwalk-notifier' (modem-reset too if you plan to use it) scripts to /usr/local/bin
+- Save the 'sleepwalk', 'sleepwalk-notifier' and 'modem-reset' scripts to /usr/local/bin
 
 ~~- Disable deep sleep in phosh~~
 (No longer needed. When the service is started it will automagically disable it by itself, and turn it back on when the service is stopped)
 - Systemd distros (Such as Mobian, Manjaro, or Arch): 
     - Copy the systemd service file 'sleepwalk.service' to '/etc/systemd/system/'
-    - Execute 'sudo systemctl enable --now sleepwalk' to enable and start the service (optionally, do the same for modem-reset if you want to use it)
+    - Execute 'sudo systemctl enable --now sleepwalk' to enable and start sleepwalk and do the same for modem-reset 'sudo systemctl enable --now modem-reset'
 - Openrc distros (Such as PostmarketOS):
     - Copy the openrc service file 'sleepwalkrc' to '/etc/init.d'
     - Execute 'rc-update add sleepwalkrc' and 'service sleepwalkrc start' to enable and start the service
@@ -35,7 +35,7 @@ How to install and use:
 Known issues:
 ~~- The modem goes off by itself whenever he wants, so I need to implement another script that keeps it running if it goes out. (WIP, last piece of the puzzle to be able to receive notifications reliably)~~
 
-Not anymore, if you use modem-reset :)
+Not anymore, that's what modem-reset does
 
 Dependencies:
 - phosh (any other gnome based DE should work, I think. Untested though)
@@ -46,7 +46,7 @@ Dependencies:
 ## Important
 
 Change the variable "USERNAME=" at the top of sleepwalk to your own user's name so that the notification feedback works.
-If you plan on using modem-reset, also change the PINCODE variable at the top of the modem-reset script to match yours.
+For modem-reset, also change the PINCODE variable at the top of the modem-reset script to match yours.
 
 
 ## About the keyboard case
