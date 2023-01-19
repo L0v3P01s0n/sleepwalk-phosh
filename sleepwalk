@@ -9,7 +9,6 @@ LOCK_DIR="/tmp/sleepwalk"
 IS_NOTIFICATION=0
 NOTIFICATION_FILE="/tmp/sleepwalk-notify"
 USERNAME="manjaro"
-MODEMRESET="0"
 SLEEPCHARGE="0"
 
 
@@ -61,19 +60,14 @@ fi
 
 
 modem-check(){
-
-if [ "$MODEMRESET" == "1" ]; then
-	if [ -e /dev/ttyUSB1 ]; then
-		if [ "$(mmcli -m any --voice-list-calls | grep 'freedesktop')" != "" ]; then
-			return 1
-		else
-			return 0
-		fi
-	else
+if [ -e /dev/ttyUSB1 ]; then
+	if [ "$(mmcli -m any --voice-list-calls | grep 'freedesktop')" != "" ]; then
 		return 1
+	else
+		return 0
 	fi
 else
-	return 0
+	return 1
 fi
 }
 
