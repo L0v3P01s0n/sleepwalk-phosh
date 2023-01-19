@@ -6,7 +6,9 @@ By default, its behavior is the following: it waits 1 minute for the mobile envi
 - If screen is on.
 - If there's any suspend inhibitors.
 - If the modem is offline.
+- If there's a call active
 - If the phone is charging.
+- If wlan0 is in AP mode.
 
 If any of this conditions are met, the phone won't sleep and instead it will wait 1 minute before checking again. By default it is assumed that the modem-reset script is going to be used to restart the modem when it crashes, automatically entering the pincode and re-enabling mobile-data connectivity if it was enabled before crashing.
 
