@@ -1,7 +1,7 @@
 # sleepwalk-phosh
 Bash system service to periodically wake up the PinePhone for notifications to arrive. The goal of this is to get a better battery time while still being able to reliably receive notifications. Currently, only calls, SMS and the system clock will make the phone wake up when deep sleep is used.
 
-By default, its behavior is the following: it waits 1 minute for the mobile environment and dbus to load, then if these conditions aren't met, it will make the phone sleep for 30s, wake for another 30s (wake time is always the same); and then sleep again, adding 30s to the previous sleep time to a maximum time of 10 minutes. These are the mentioned conditions:
+By default, its behavior is the following: it waits 1 minute for the mobile environment and dbus to load, then if these conditions aren't met, it will make the phone sleep for 30s, wake for another 30s (wake time is always the same); and then sleep again, adding 30s to the previous sleep time to a maximum time of 10 minutes. The LED will turn constant red during sleep and blinking green during wake time. These are the mentioned conditions:
 
 - If screen is on.
 - If there's any suspend inhibitors.
