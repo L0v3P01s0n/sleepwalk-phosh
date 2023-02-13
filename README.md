@@ -60,6 +60,8 @@ If you are experiencing charging problems with the keyboard case like I did, you
 
 modem-reset checks for a network connection named 'mobiledata' to re-enable mobile data connectivity, so you need to change your current data connection name to 'mobiledata'. To find which one of them is your data connection, go to settings and turn on mobile data. Then, on the terminal, execute 'nmcli c show --active' to see your active connections. Search for the one that has the type 'gsm' and device 'cdc-wdm0' and note down its UUID. Last step is to change its name executing 'sudo nmcli c mod <YOUR_UUID_HERE> connection.id mobiledata'. That's it!
 
+Also don't forget to change the pincode variable in the script to your own pincode.
+
 
 ## EXTRAS!
 
