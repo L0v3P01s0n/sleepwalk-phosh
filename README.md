@@ -28,9 +28,11 @@ How to install and use:
 - Systemd distros (Such as Mobian, Manjaro, or Arch): 
     - Copy the systemd service file 'sleepwalk.service' to '/etc/systemd/system/'
     - Execute 'sudo systemctl enable --now sleepwalk' to enable and start sleepwalk and do the same for modem-reset 'sudo systemctl enable --now modem-reset'
-- Openrc distros (Such as PostmarketOS):
-    - Copy the openrc service file 'sleepwalkrc' to '/etc/init.d'
-    - Execute 'rc-update add sleepwalkrc' and 'service sleepwalkrc start' to enable and start the service
+~~- Openrc distros (Such as PostmarketOS):~~
+    ~~- Copy the openrc service file 'sleepwalkrc' to '/etc/init.d'~~
+    ~~- Execute 'rc-update add sleepwalkrc' and 'service sleepwalkrc start' to enable and start the service~~
+    
+Sadly the script only works for systemd and phosh on the regular pinephone, but I do plan on making it compatible with everything eventually.
 
 Known issues:
 ~~- The modem goes off by itself whenever he wants, so I need to implement another script that keeps it running if it goes out. (WIP, last piece of the puzzle to be able to receive notifications reliably)~~
