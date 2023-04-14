@@ -1,49 +1,53 @@
 # sleepwalk-phosh
-Bash system service to periodically wake up the PinePhone for notifications to arrive. The goal of this is to get a better battery time while still being able to reliably receive notifications. Currently, only calls, SMS and the system clock will make the phone wake up when deep sleep is used.
+Bash system service to periodically wake up Linux phones for notifications to arrive. The goal of this is to get a better battery time while still being able to reliably receive notifications. Currently, only calls, SMS and the system clock will make the phone wake up when deep sleep is used.
 
 By default, its behavior is the following: it waits 1 minute for the mobile environment and dbus to load, then if these conditions aren't met, it will make the phone sleep for 30s, wake for another 30s (wake time is always the same); and then sleep again, adding 30s to the previous sleep time to a maximum time of 10 minutes. The LED will turn constant red during sleep and blinking green during wake time. These are the mentioned conditions:
 
 - If screen is on.
 - If there's any suspend inhibitors.
-- If the modem is offline.
+- If the modem is offline. (Only applicable to the PinePhone(Pro) version)
 - If there's a call active
 - If the phone is charging.
 - If wlan0 is in AP mode.
 
-If any of this conditions are met, the phone won't sleep and instead it will wait 1 minute before checking again. By default it is assumed that the modem-reset script is going to be used to restart the modem when it crashes, automatically entering the pincode and re-enabling mobile-data connectivity if it was enabled before crashing.
+If any of this conditions are met, the phone won't sleep and instead it will wait 1 minute before checking again. By default it is assumed that if you install the PinePhone(Pro) version, the modem-reset script is going to be used to restart the modem when it crashes, automatically entering the pincode and re-enabling mobile-data connectivity if it was enabled before crashing.
+
+There's also another branch for the Oneplus 6 which doesn't have this problem.
 
 If you want the phone to sleep even while having the charger plugged in: flip the variable SLEEPCHARGE from the top of the script from 0 to 1.
 
 When new notifications are available, it will trigger sound and vibration (depending on your notification profile: active, vibration only or silence) and the LED color will turn to blue (constant blue during sleep; blinking blue during wake-time).
 
-Added support for checking when mpv is running as it is not detected as a video/audio player, and then inhibiting idle and suspend if it is running. Also it inhibits only suspend when any other detected audio/video player is playing media. Also added keyboard case support: if they keyboard's battery is present, to check if the charging cable is plugged in, it will see if the keyboard's battery is charging instead of the internal one. This allows the script to sleep even if the internal battery is charging as long as the keyboard one isn't.
+Added PinePhone's keyboard case support: if they keyboard's battery is present, to check if the charging cable is plugged in, it will see if the keyboard's battery is charging instead of the internal one. This allows the script to sleep even if the internal battery is charging as long as the keyboard one isn't.
 
 (DISCLAIMER: WHEN THE KEYBOARD IS ATTACHED, PLEASE ONLY CHARGE THE PHONE AND KEYBOARD FROM THE KEYBOARD'S PORT TO AVOID ANY POTENTIAL DAMAGE TO THE KEYBOARD AS WELL AS THE PHONE AND THEIR BATTERIES. You can use the phone's port for anything other than charging AS LONG AS the keyboard ISN'T providing energy to the internal battery. For more information about this, please refer to https://xnux.eu/pinephone-keyboard/faq.html)
 
 How to install and use:
-- Save the 'sleepwalk', 'sleepwalk-notifier' and 'modem-reset' scripts to /usr/local/bin
+- Save the 'sleepwalk', 'sleepwalk-notifier' and optionally the 'modem-reset' scripts to /usr/local/bin and make them executable
 
-~~- Disable deep sleep in phosh~~
-(No longer needed. When the service is started it will automagically disable it by itself, and turn it back on when the service is stopped)
+- Disable deep sleep in your desktop or mobile environment, if you plan on using multiple, you'll need to do this on all of them
+
 - Systemd distros (Such as Mobian, Manjaro, or Arch): 
     - Copy the systemd service file 'sleepwalk.service' to '/etc/systemd/system/'
-    - Execute 'sudo systemctl enable --now sleepwalk' to enable and start sleepwalk and do the same for modem-reset 'sudo systemctl enable --now modem-reset'
-~~- Openrc distros (Such as PostmarketOS):~~
-    ~~- Copy the openrc service file 'sleepwalkrc' to '/etc/init.d'~~
-    ~~- Execute 'rc-update add sleepwalkrc' and 'service sleepwalkrc start' to enable and start the service~~
+    - Execute 'sudo systemctl enable --now sleepwalk' to enable and start sleepwalk and optionally do the same for modem-reset if you are using the PinePhone(Pro) version: 'sudo systemctl enable --now modem-reset'
     
-Sadly the script only works for systemd and phosh on the regular pinephone, but I do plan on making it compatible with everything eventually.
+- Openrc distros (Such as PostmarketOS):
+    - Copy the openrc service file 'sleepwalkrc' to '/etc/init.d'
+    - Execute 'rc-update add sleepwalkrc' and 'service sleepwalkrc start' to enable and start the service
+    
+~~Sadly the script only works for systemd and phosh on the regular pinephone, but I do plan on making it compatible with everything eventually.~~
+Guess what...  ;)
 
 Known issues:
-~~- The modem goes off by itself whenever he wants, so I need to implement another script that keeps it running if it goes out. (WIP, last piece of the puzzle to be able to receive notifications reliably)~~
+~~- The PinePhone modem goes off by itself whenever he wants, so I need to implement another script that keeps it running if it goes out. (WIP, last piece of the puzzle to be able to receive notifications reliably)~~
 
 Not anymore, that's what modem-reset does
 
 Dependencies:
-- phosh (any other gnome based DE should work, I think. Untested though)
+~~- phosh (any other gnome based DE should work, I think. Untested though)~~
+- A desktop environment, LOL
 - rtcwake
 - screen
-- playerctl
 
 ## Important
 
@@ -65,14 +69,15 @@ Also don't forget to change the pincode variable in the script to your own pinco
 
 ## EXTRAS!
 
-I included some optional scripts I personally made and use every day to daily drive my PinePhone. You might want to use them in addition to sleepwalk or on their own. I hope these are useful to you! <3
+I included some optional scripts I personally made and use every day to daily drive Linux phones. You might want to use them in addition to sleepwalk or on their own. I hope these are useful to you! <3
 
 
 ## TODO
 
-- Add support for the PinePhone Pro.
-- Make the script universally compatible with every DE.
+~~- Add support for the PinePhone Pro.~~
+~~- Make the script universally compatible with every DE.~~
 
+;)
 
 ## Contributing
 
