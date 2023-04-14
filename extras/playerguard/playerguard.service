@@ -1,0 +1,10 @@
+[Unit]
+Description=Automatically restart PinePhone's modem when it crashes
+[Service]
+User=YOURUSERNAME
+WorkingDirectory=/
+ExecStart=playerguard start
+ExecStop=playerguard stop
+Restart=always
+[Install]
+WantedBy=multi-user.target
