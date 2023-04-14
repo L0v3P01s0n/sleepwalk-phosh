@@ -1,0 +1,15 @@
+#!/sbin/openrc-run
+
+name="playerguard"
+description="GNOME service to inhibit idle and sleep if a video or audio player is running"
+command="playerguard start"
+pidfile="/run/playerguard"
+command_user="lovepoison:lovepoison"
+command_background="yes"
+respawn_period=30
+
+stop() {
+    ebegin "Stopping playerguard"
+    start-stop-daemon --stop --exec playerguard stop --pidfile="/run/playerguard"
+    eend $?
+}
