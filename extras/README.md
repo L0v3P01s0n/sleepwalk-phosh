@@ -1,6 +1,11 @@
 # Extra scripts
 
 
+## playerguard
+
+GNOME script to inhibit sleep if a video/audio player is running. To install it simply copy the binary to /usr/local/bin, add it execute permissions and choose either the openrc service file or the systemd one. Enable and start the service and you should be good to go.
+
+
 ## call-reset
 
 call-reset checks every 5 seconds to see if you are currently in a call. If you are it will restart pulseaudio immediately after the call is finished. Why? Because I noticed a bug that freezes the entire phone if you were to plug your headphones in right after a call. For some reason it DOES change the output sound device to the internal speaker again as usual, but for a long time if another audio device gets connected in that period of time, the entire phone seems to run extremely laggy, forcing you to force a shutdown by holding down the power button. Restarting pulseaudio right after a call seems to resolve this issue, but similar freezing bugs still occur if you have headphones plugged in BEFORE the call occurs (I hope I knew how to fix that one).
