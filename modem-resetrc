@@ -1,0 +1,14 @@
+#!/sbin/openrc-run
+description="Automatically restart PinePhone's modem when it crashes"
+
+start() {
+    ebegin "Starting modem-reset"
+    start-stop-daemon --background --start --exec modem-reset --make-pidfile --pidfile="/run/modem-reset"
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping modem-reset"
+    start-stop-daemon --stop --exec pkill modem-reset --pidfile="/run/modem-reset"
+    eend $?
+}
