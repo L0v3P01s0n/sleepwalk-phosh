@@ -88,11 +88,11 @@ To adapt it to your device, you only need to find out your screen device's path,
 
 On the SLEEPCHARGE function, look for the line:
 
-if [ "$(cat ~~/sys/class/power_supply/bq27411-0/~~status)" == "Charging" ]; then
+if [ "$(cat /sys/class/power_supply/bq27411-0/status)" == "Charging" ]; then
 
-And just replace the marked parth to your battery path. Do the same thing for the screen on the can_sleep function and the LED on the LED functions:
+And just replace the path to your battery path. Do the same thing for the screen on the can_sleep function and the LED on the LED functions:
 
-if [ "$(cat ~~/sys/class/backlight/ae94000.dsi.0/~~bl_power)" = "0" ]
+if [ "$(cat /sys/class/backlight/ae94000.dsi.0/bl_power)" = "0" ]
 
 ---------------------------------------------------------------------
 
