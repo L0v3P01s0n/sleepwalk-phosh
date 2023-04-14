@@ -3,7 +3,9 @@
 
 ## playerguard
 
-GNOME script to inhibit sleep if a video/audio player is running. To install it simply copy the binary to /usr/local/bin, add it execute permissions and choose either the openrc service file or the systemd one. Enable and start the service and you should be good to go.
+GNOME script to inhibit sleep if a video/audio player is running. To install it simply copy the binary to /usr/local/bin, add it execute permissions and choose either the openrc service file or the systemd one. Enable and start the service and you should be good to go, but before that change your username and/or group to match your user on the service file. Dependencies:
+
+- playerctl
 
 
 ## call-reset
