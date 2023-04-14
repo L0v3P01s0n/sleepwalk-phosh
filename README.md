@@ -79,6 +79,26 @@ I included some optional scripts I personally made and use every day to daily dr
 
 ;)
 
+
+##Porting to other devices
+
+Porting is fairly simple. Grab the Oneplus 6 version as it should be simpler to adapt (the PinePhone version checks for 3 batteries, the battery case, PinePhone one and Pro, the PinePhone also has 3 single-color LEDs instead of a single RGB one).
+
+To adapt it to your device, you only need to find out your screen device's path, battery path and LED path and replace them on the script:
+
+On the SLEEPCHARGE function, look for the line:
+
+if [ "$(cat ~~/sys/class/power_supply/bq27411-0/~~status)" == "Charging" ]; then
+
+And just replace the marked parth to your battery path. Do the same thing for the screen on the can_sleep function and the LED on the LED functions:
+
+if [ "$(cat ~~/sys/class/backlight/ae94000.dsi.0/~~bl_power)" = "0" ]
+
+---------------------------------------------------------------------
+
+For the LED, you might need to find out which values are needed to turn the LED red, blue and green, and adjust them accordingly in the led_sleep, led_wake and led_disable functions.
+
+
 ## Contributing
 
 If you want to contribute the project you can either donate me at https://ko-fi.com/l0v3p01s0n, spread the word so more people know about the project (I could get some contributors or some useful feedback that way) or just help me with the code yourself! Whatever the case, please open up a new issue if you want to suggest changes/improvements or report bugs.
