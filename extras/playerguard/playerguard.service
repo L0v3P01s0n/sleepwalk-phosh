@@ -1,5 +1,5 @@
 [Unit]
-Description=Automatically restart PinePhone's modem when it crashes
+Description=GNOME service to inhibit idle and sleep if a video or audio player is running
 [Service]
 User=YOURUSERNAME
 WorkingDirectory=/
