@@ -8,28 +8,17 @@ WAKE_SECS=30
 LOCK_DIR="/tmp/sleepwalk"
 IS_NOTIFICATION=0
 NOTIFICATION_FILE="/tmp/sleepwalk-notify"
-USERNAME="manjaro"
+USERNAME="lovepoison"
 SLEEPCHARGE="0"
 
 
 sleepcharge() {
 
 if [ "$SLEEPCHARGE" == "0" ]; then
-	if [ -d "/sys/class/power_supply/ip5xxx-battery/" ]; then
-		if [ "$(cat /sys/class/power_supply/ip5xxx-battery/status)" == "Charging" ]; then
-			return 1
-		else
-			return 0
-		fi
+	if [ "$(cat /sys/class/power_supply/bq27411-0/status)" == "Charging" ]; then
+		return 1
 	else
-		if [ "$(cat /sys/class/power_supply/axp20x-battery/status)" == "Charging" ]; then
-			return 1
-
-		elif [ "$(cat /sys/class/power_supply/rk818-usb/status)" == "Charging" ]; then
-			return 1
-		else
-			return 0
-		fi
+		return 0
 	fi
 
 else
@@ -92,7 +81,7 @@ reset_wake_time() {
 
 can_sleep() {
 
-if [ "$(cat /sys/class/backlight/backlight/bl_power)" = "0" ] || ! sleepcharge || [ "$(su -c "export $DBUS && $INHIBIT --list --no-legend | grep -e '[[:space:]]sleep[[:space:]]' | grep -e 'lock$' | grep sleep" $USERNAME)" != "" ] || ! modem-check || [ "$(iw dev wlan0 info | grep 'type' | cut -d ' ' -f2)" == "AP" ]; then
+if [ "$(cat /sys/class/backlight/ae94000.dsi.0/bl_power)" = "0" ] || ! sleepcharge || [ "$(su -c "export $DBUS && $INHIBIT --list --no-legend | grep -e '[[:space:]]sleep[[:space:]]' | grep -e 'lock$' | grep sleep" $USERNAME)" != "" ] || ! modem-check || [ "$(iw dev wlan0 info | grep 'type' | cut -d ' ' -f2)" == "AP" ]; then
 	return 1
 else
 	return 0
@@ -102,32 +91,27 @@ fi
 
 led_sleep() {
 	if [ $IS_NOTIFICATION == 0 ]; then
-		echo 0 > /sys/class/leds/green\:indicator/brightness
-		echo 1 > /sys/class/leds/red\:indicator/brightness
-		echo 0 > /sys/class/leds/blue\:indicator/brightness
+		echo 511 > /sys/class/leds/rgb\:status/brightness
+		echo "0 0 511" > /sys/class/leds/rgb\:status/multi_intensity
 	else
-		echo 0 > /sys/class/leds/green\:indicator/brightness
-		echo 0 > /sys/class/leds/red\:indicator/brightness
-		echo 1 > /sys/class/leds/blue\:indicator/brightness
+		echo 511 > /sys/class/leds/rgb\:status/brightness
+		echo "511 0 0" > /sys/class/leds/rgb\:status/multi_intensity
 	fi
 }
 
 led_wake() {
 	if [ $IS_NOTIFICATION == 0 ]; then
-		echo 1 > /sys/class/leds/green\:indicator/brightness
-		echo 0 > /sys/class/leds/red\:indicator/brightness
-		echo 0 > /sys/class/leds/blue\:indicator/brightness
+		echo 511 > /sys/class/leds/rgb\:status/brightness
+		echo "0 511 0" > /sys/class/leds/rgb\:status/multi_intensity
 	else
-		echo 0 > /sys/class/leds/green\:indicator/brightness
-		echo 0 > /sys/class/leds/red\:indicator/brightness
-		echo 1 > /sys/class/leds/blue\:indicator/brightness
+		echo 511 > /sys/class/leds/rgb\:status/brightness
+		echo "511 0 0" > /sys/class/leds/rgb\:status/multi_intensity
 	fi
 }
 
 led_disable() {
-	echo 0 > /sys/class/leds/green\:indicator/brightness
-	echo 0 > /sys/class/leds/red\:indicator/brightness
-	echo 0 > /sys/class/leds/blue\:indicator/brightness
+	echo 0 > /sys/class/leds/rgb\:status/brightness
+	echo 0 > /sys/class/leds/rgb\:status/multi_intensity
 }
 
 notification_watcher() {
@@ -228,3 +212,4 @@ elif [ "$1" == "stop" ]; then
 else
 	echo "Unknown command: $1" >&2
 	exit 1
+fi
