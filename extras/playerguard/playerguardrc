@@ -4,7 +4,7 @@ name="playerguard"
 description="GNOME service to inhibit idle and sleep if a video or audio player is running"
 command="playerguard start"
 pidfile="/run/playerguard"
-command_user="lovepoison:lovepoison"
+command_user="YOURGROUP:YOURUSERNAME"
 command_background="yes"
 respawn_period=30
 
