@@ -80,7 +80,7 @@ I included some optional scripts I personally made and use every day to daily dr
 ;)
 
 
-##Porting to other devices
+## Porting to other devices
 
 Porting is fairly simple. Grab the Oneplus 6 version as it should be simpler to adapt (the PinePhone version checks for 3 batteries, the battery case, PinePhone one and Pro, the PinePhone also has 3 single-color LEDs instead of a single RGB one).
 
