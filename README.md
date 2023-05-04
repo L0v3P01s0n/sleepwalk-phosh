@@ -18,7 +18,7 @@ If you want the phone to sleep even while having the charger plugged in: flip th
 
 When new notifications are available, it will trigger sound and vibration (depending on your notification profile: active, vibration only or silence) and the LED color will turn to blue (constant blue during sleep; blinking blue during wake-time).
 
-Added PinePhone's keyboard case support: if they keyboard's battery is present, to check if the charging cable is plugged in, it will see if the keyboard's battery is charging instead of the internal one. This allows the script to sleep even if the internal battery is charging as long as the keyboard one isn't.
+Added PinePhone's keyboard case support: if the keyboard's battery is present, to check if the charging cable is plugged in, it will see if the keyboard's battery is charging instead of the internal one. This allows the script to sleep even if the internal battery is charging as long as the keyboard one isn't.
 
 (DISCLAIMER: WHEN THE KEYBOARD IS ATTACHED, PLEASE ONLY CHARGE THE PHONE AND KEYBOARD FROM THE KEYBOARD'S PORT TO AVOID ANY POTENTIAL DAMAGE TO THE KEYBOARD AS WELL AS THE PHONE AND THEIR BATTERIES. You can use the phone's port for anything other than charging AS LONG AS the keyboard ISN'T providing energy to the internal battery. For more information about this, please refer to https://xnux.eu/pinephone-keyboard/faq.html)
 
