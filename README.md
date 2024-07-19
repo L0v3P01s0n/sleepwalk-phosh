@@ -80,6 +80,11 @@ I included some optional scripts I personally made and use every day to daily dr
 ;)
 
 
+## Troubleshooting
+
+On Mobian Bookworm, notification sounds might not work properly if `bluez-obexd` is installed, typically installed as a recommended package with other bluetooth related packages. Running `sudo apt remove bluez-obexd` then rebooting should be enough without breaking Blueman or the bluetooth PulseAudio module.
+
+
 ## Porting to other devices
 
 Porting is fairly simple. Grab the Oneplus 6 version as it should be simpler to adapt (the PinePhone version checks for 3 batteries, the battery case, PinePhone one and Pro, the PinePhone also has 3 single-color LEDs instead of a single RGB one).
