@@ -156,7 +156,14 @@ if [ "$1" == "start" ]; then
 	chmod 666 "$NOTIFICATION_FILE"
 	sleep 60
 
-	DBUS="$(cat /proc/$(pidof dbus-daemon | cut -d ' ' -f1)/environ | tr '\0' '\n' | grep DBUS_SESSION_BUS_ADDRESS)"
+	if [ "$(pidof dbus-daemon)" != "" ]; then
+                DBUS="$(cat /proc/$(pidof -s dbus-daemon)/environ | tr '\0' '\n' | grep DBUS_SESSION_BUS_ADDRESS)"
+        elif [ "$(pidof dbus-broker)" != "" ]; then
+                DBUS="$(cat /proc/$(pidof -s dbus-broker)/environ | tr '\0' '\n' | grep DBUS_SESSION_BUS_ADDRESS)"
+        else
+                echo "Dbus process not found. Script not compatible for current distro. Aborting..." >&2
+                exit 1
+        fi
 
 	if [ "$(command -v systemd-inhibit)" != "" ]; then
 		INHIBIT="systemd-inhibit"
