@@ -8,7 +8,7 @@ WAKE_SECS=30
 LOCK_DIR="/tmp/sleepwalk"
 IS_NOTIFICATION=0
 NOTIFICATION_FILE="/tmp/sleepwalk-notify"
-USERNAME="manjaro"
+USERNAME="lovepoison"
 SLEEPCHARGE="0"
 
 
@@ -25,7 +25,7 @@ if [ "$SLEEPCHARGE" == "0" ]; then
 		if [ "$(cat /sys/class/power_supply/axp20x-battery/status)" == "Charging" ]; then
 			return 1
 
-		elif [ "$(cat /sys/class/power_supply/rk818-usb/status)" == "Charging" ]; then
+		elif [ "$(cat /sys/class/power_supply/rk818-battery/status)" == "Charging" ]; then
 			return 1
 		else
 			return 0
@@ -102,32 +102,32 @@ fi
 
 led_sleep() {
 	if [ $IS_NOTIFICATION == 0 ]; then
-		echo 0 > /sys/class/leds/green\:indicator/brightness
-		echo 1 > /sys/class/leds/red\:indicator/brightness
-		echo 0 > /sys/class/leds/blue\:indicator/brightness
+		echo 0 > /sys/class/leds/green\:/brightness
+		echo 1 > /sys/class/leds/red\:/brightness
+		echo 0 > /sys/class/leds/blue\:/brightness
 	else
-		echo 0 > /sys/class/leds/green\:indicator/brightness
-		echo 0 > /sys/class/leds/red\:indicator/brightness
-		echo 1 > /sys/class/leds/blue\:indicator/brightness
+		echo 0 > /sys/class/leds/green\:/brightness
+		echo 0 > /sys/class/leds/red\:/brightness
+		echo 1 > /sys/class/leds/blue\:/brightness
 	fi
 }
 
 led_wake() {
 	if [ $IS_NOTIFICATION == 0 ]; then
-		echo 1 > /sys/class/leds/green\:indicator/brightness
-		echo 0 > /sys/class/leds/red\:indicator/brightness
-		echo 0 > /sys/class/leds/blue\:indicator/brightness
+		echo 1 > /sys/class/leds/green\:/brightness
+		echo 0 > /sys/class/leds/red\:/brightness
+		echo 0 > /sys/class/leds/blue\:/brightness
 	else
-		echo 0 > /sys/class/leds/green\:indicator/brightness
-		echo 0 > /sys/class/leds/red\:indicator/brightness
-		echo 1 > /sys/class/leds/blue\:indicator/brightness
+		echo 0 > /sys/class/leds/green\:/brightness
+		echo 0 > /sys/class/leds/red\:/brightness
+		echo 1 > /sys/class/leds/blue\:/brightness
 	fi
 }
 
 led_disable() {
-	echo 0 > /sys/class/leds/green\:indicator/brightness
-	echo 0 > /sys/class/leds/red\:indicator/brightness
-	echo 0 > /sys/class/leds/blue\:indicator/brightness
+	echo 0 > /sys/class/leds/green\:/brightness
+	echo 0 > /sys/class/leds/red\:/brightness
+	echo 0 > /sys/class/leds/blue\:/brightness
 }
 
 notification_watcher() {
@@ -172,7 +172,14 @@ if [ "$1" == "start" ]; then
 	chmod 666 "$NOTIFICATION_FILE"
 	sleep 60
 
-	DBUS="$(cat /proc/$(pidof dbus-daemon | cut -d ' ' -f1)/environ | tr '\0' '\n' | grep DBUS_SESSION_BUS_ADDRESS)"
+	if [ "$(pidof dbus-daemon)" != "" ]; then
+                DBUS="$(cat /proc/$(pidof -s dbus-daemon)/environ | tr '\0' '\n' | grep DBUS_SESSION_BUS_ADDRESS)"
+        elif [ "$(pidof dbus-broker)" != "" ]; then
+                DBUS="$(cat /proc/$(pidof -s dbus-broker)/environ | tr '\0' '\n' | grep DBUS_SESSION_BUS_ADDRESS)"
+        else
+                echo "Dbus process not found. Script not compatible for current distro. Aborting..." >&2
+                exit 1
+        fi
 
 	if [ "$(command -v systemd-inhibit)" != "" ]; then
 		INHIBIT="systemd-inhibit"
@@ -228,3 +235,4 @@ elif [ "$1" == "stop" ]; then
 else
 	echo "Unknown command: $1" >&2
 	exit 1
+fi
