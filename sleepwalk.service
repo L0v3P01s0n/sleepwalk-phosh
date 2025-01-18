@@ -6,7 +6,6 @@ User=root
 WorkingDirectory=/
 ExecStart=sleepwalk start
 ExecStop=sleepwalk stop
-Restart=always
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target
