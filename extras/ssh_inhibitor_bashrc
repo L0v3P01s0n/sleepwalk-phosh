@@ -1,5 +1,0 @@
-# Add this to your .bashrc if you don't want the phone sleeping while remotely connected to it.
-
-if [[ -n $SSH_CONNECTION ]]; then
-  sh -c "gnome-session-inhibit --inhibit suspend --reason \"SSH connection active\" --inhibit-only > /dev/null 2>&1 &"
-fi

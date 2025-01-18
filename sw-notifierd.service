@@ -1,0 +1,10 @@
+[Unit]
+Description=Sleepwalk notifier script as a standalone daemon to just add feedback to notifications
+
+[Service]
+User=root
+ExecStart=sw-notifierd start
+ExecStop=sw-notifierd stop
+
+[Install]
+WantedBy=graphical.target

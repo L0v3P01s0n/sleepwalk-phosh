@@ -1,0 +1,34 @@
+#!/bin/bash
+
+USERNAME=lovepoison
+NOTIFICATION_FILE="/tmp/sleepwalk-notify"
+
+
+if [ "$1" == "start" ]; then
+
+	touch "$NOTIFICATION_FILE"
+	chmod 666 "$NOTIFICATION_FILE"
+	sleep 60
+	if [ "$(pidof dbus-daemon)" != "" ]; then
+		DBUS="$(cat /proc/$(pidof -s dbus-daemon)/environ | tr '\0' '\n' | grep DBUS_SESSION_BUS_ADDRESS)"
+	elif [ "$(pidof dbus-broker)" != "" ]; then
+		DBUS="$(cat /proc/$(pidof -s dbus-broker)/environ | tr '\0' '\n' | grep DBUS_SESSION_BUS_ADDRESS)"
+	else
+		echo "Dbus process not found. Script not compatible for current distro. Aborting..." >&2
+		exit 1
+	fi
+
+	su -c "screen -S sleepwalk-watcher -dm bash -c 'export $DBUS && dbus-monitor interface='org.freedesktop.Notifications' > \"$NOTIFICATION_FILE\"'" $USERNAME
+	sleep 1
+	su -c "screen -S sleepwalk-notifier -dm bash -c 'export $DBUS && sleepwalk-notifier'" $USERNAME
+
+elif [ "$1" == "stop" ]; then
+
+	su -c "screen -S sleepwalk-notifier -X quit" $USERNAME
+	su -c "screen -S sleepwalk-watcher -X quit" $USERNAME
+	rm "$NOTIFICATION_FILE" 2>/dev/null
+
+else
+        echo "Unknown command: $1" >&2
+        exit 1
+fi

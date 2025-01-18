@@ -1,0 +1,14 @@
+#!/sbin/openrc-run
+description="Sleepwalk notifier script as a standalone daemon to just add feedback to notifications"
+
+start() {
+    ebegin "Starting sw-notifierd"
+    start-stop-daemon --background --start --exec sw-notifierd start --make-pidfile --pidfile="/run/sleepwalk"
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping sw-notifierd"
+    start-stop-daemon --stop --exec sw-notifierd stop --pidfile="/run/sleepwalk"
+    eend $?
+}
