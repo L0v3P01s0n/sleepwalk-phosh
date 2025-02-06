@@ -10,7 +10,7 @@ IS_NOTIFICATION=0
 NOTIFICATION_FILE="/tmp/sleepwalk-notify"
 USERNAME="lovepoison"
 SLEEPCHARGE="0"
-NO_MODEM=0
+NO_MODEM="0"
 
 
 sleepcharge() {
