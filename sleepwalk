@@ -11,6 +11,9 @@ NOTIFICATION_FILE="/tmp/sleepwalk-notify"
 USERNAME="lovepoison"
 SLEEPCHARGE="0"
 NO_MODEM="0"
+RED_LED="$(ls /sys/class/leds/ | grep red)"
+GREEN_LED="$(ls /sys/class/leds/ | grep green)"
+BLUE_LED="$(ls /sys/class/leds/ | grep blue)"
 
 
 sleepcharge() {
@@ -106,33 +109,33 @@ fi
 }
 
 led_sleep() {
-	if [ $IS_NOTIFICATION == 0 ]; then
-		echo 0 > /sys/class/leds/green\:/brightness
-		echo 1 > /sys/class/leds/red\:/brightness
-		echo 0 > /sys/class/leds/blue\:/brightness
-	else
-		echo 0 > /sys/class/leds/green\:/brightness
-		echo 0 > /sys/class/leds/red\:/brightness
-		echo 1 > /sys/class/leds/blue\:/brightness
-	fi
+        if [ $IS_NOTIFICATION == 0 ]; then
+                echo 0 > /sys/class/leds/$GREEN_LED
+                echo 1 > /sys/class/leds/$RED_LED
+                echo 0 > /sys/class/leds/$BLUE_LED
+        else
+                echo 0 > /sys/class/leds/$GREEN_LED
+                echo 0 > /sys/class/leds/$RED_LED
+                echo 1 > /sys/class/leds/$BLUE_LED
+        fi
 }
 
 led_wake() {
-	if [ $IS_NOTIFICATION == 0 ]; then
-		echo 1 > /sys/class/leds/green\:/brightness
-		echo 0 > /sys/class/leds/red\:/brightness
-		echo 0 > /sys/class/leds/blue\:/brightness
-	else
-		echo 0 > /sys/class/leds/green\:/brightness
-		echo 0 > /sys/class/leds/red\:/brightness
-		echo 1 > /sys/class/leds/blue\:/brightness
-	fi
+        if [ $IS_NOTIFICATION == 0 ]; then
+                echo 1 > /sys/class/leds/$GREEN_LED
+                echo 0 > /sys/class/leds/$RED_LED
+                echo 0 > /sys/class/leds/$BLUE_LED
+        else
+                echo 0 > /sys/class/leds/$GREEN_LED
+                echo 0 > /sys/class/leds/$RED_LED
+                echo 1 > /sys/class/leds/$BLUE_LED
+        fi
 }
 
 led_disable() {
-	echo 0 > /sys/class/leds/green\:/brightness
-	echo 0 > /sys/class/leds/red\:/brightness
-	echo 0 > /sys/class/leds/blue\:/brightness
+        echo 0 > /sys/class/leds/$GREEN_LED
+        echo 0 > /sys/class/leds/$RED_LED
+        echo 0 > /sys/class/leds/$BLUE_LED
 }
 
 notification_watcher() {
