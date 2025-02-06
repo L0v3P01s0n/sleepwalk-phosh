@@ -10,6 +10,7 @@ IS_NOTIFICATION=0
 NOTIFICATION_FILE="/tmp/sleepwalk-notify"
 USERNAME="lovepoison"
 SLEEPCHARGE="0"
+NO_MODEM=0
 
 
 sleepcharge() {
@@ -44,9 +45,13 @@ fi
 modem-check(){
 
 if [ "$(mmcli -m any --voice-list-calls | grep 'freedesktop')" != "" ]; then
-	return 1
+        if [ "$NO_MODEM" == "1" ]; then
+                return 0
+        else
+                return 1
+	fi
 else
-	return 0
+        return 0
 fi
 
 }
