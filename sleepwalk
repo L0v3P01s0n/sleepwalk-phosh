@@ -11,6 +11,7 @@ NOTIFICATION_FILE="/tmp/sleepwalk-notify"
 USERNAME="lovepoison"
 SLEEPCHARGE="0"
 NO_MODEM="0"
+SLEEP_CHECK="0"
 
 
 sleepcharge() {
@@ -48,6 +49,7 @@ fi
 
 start_deep_sleep() {
 	led_sleep
+	SLEEP_CHECK="1"
 	echo mem > /sys/power/state 2>/dev/null
 	return $?
 }
@@ -55,6 +57,13 @@ start_deep_sleep() {
 wait_for_notifications() {
 	secs=$WAKE_SECS
 	is_led_on=0
+	if [ "$SLEEP_CHECK" == "1" ]; then
+		SLEEP_CHECK="0"
+		sleep 1
+		if [ "$(cat /sys/class/backlight/ae94000.dsi.0/bl_power)" == "0" ]; then
+		echo 4 > /sys/class/backlight/ae94000.dsi.0/bl_power
+		fi
+	fi
 	while [ $secs -ge 0 ]; do
 		sleep 1
 		if [ $is_led_on == 0 ]; then
