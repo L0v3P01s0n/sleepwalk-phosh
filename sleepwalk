@@ -110,32 +110,32 @@ fi
 
 led_sleep() {
         if [ $IS_NOTIFICATION == 0 ]; then
-                echo 0 > /sys/class/leds/$GREEN_LED
-                echo 1 > /sys/class/leds/$RED_LED
-                echo 0 > /sys/class/leds/$BLUE_LED
+                echo 0 > /sys/class/leds/$GREEN_LED/brightness
+                echo 1 > /sys/class/leds/$RED_LED/brightness
+                echo 0 > /sys/class/leds/$BLUE_LED/brightness
         else
-                echo 0 > /sys/class/leds/$GREEN_LED
-                echo 0 > /sys/class/leds/$RED_LED
-                echo 1 > /sys/class/leds/$BLUE_LED
+                echo 0 > /sys/class/leds/$GREEN_LED/brightness
+                echo 0 > /sys/class/leds/$RED_LED/brightness
+                echo 1 > /sys/class/leds/$BLUE_LED/brightness
         fi
 }
 
 led_wake() {
         if [ $IS_NOTIFICATION == 0 ]; then
-                echo 1 > /sys/class/leds/$GREEN_LED
-                echo 0 > /sys/class/leds/$RED_LED
-                echo 0 > /sys/class/leds/$BLUE_LED
+                echo 1 > /sys/class/leds/$GREEN_LED/brightness
+                echo 0 > /sys/class/leds/$RED_LED/brightness
+                echo 0 > /sys/class/leds/$BLUE_LED/brightness
         else
-                echo 0 > /sys/class/leds/$GREEN_LED
-                echo 0 > /sys/class/leds/$RED_LED
-                echo 1 > /sys/class/leds/$BLUE_LED
+                echo 0 > /sys/class/leds/$GREEN_LED/brightness
+                echo 0 > /sys/class/leds/$RED_LED/brightness
+                echo 1 > /sys/class/leds/$BLUE_LED/brightness
         fi
 }
 
 led_disable() {
-        echo 0 > /sys/class/leds/$GREEN_LED
-        echo 0 > /sys/class/leds/$RED_LED
-        echo 0 > /sys/class/leds/$BLUE_LED
+        echo 0 > /sys/class/leds/$GREEN_LED/brightness
+        echo 0 > /sys/class/leds/$RED_LED/brightness
+        echo 0 > /sys/class/leds/$BLUE_LED/brightness
 }
 
 notification_watcher() {
