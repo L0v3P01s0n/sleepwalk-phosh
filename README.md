@@ -15,6 +15,7 @@ If any of this conditions are met, the phone won't sleep and instead it will wai
 There's also another branch for the Oneplus 6 which doesn't have this problem.
 
 If you want the phone to sleep even while having the charger plugged in: flip the variable SLEEPCHARGE from the top of the script from 0 to 1.
+If you wish to use the script on a device with no modems, or the PinePhone/(Pro) with killswitch on, toggle the variable NO_MODEM from the top of the script from 0 to 1.
 
 When new notifications are available, it will trigger sound and vibration (depending on your notification profile: active, vibration only or silence) and the LED color will turn to blue (constant blue during sleep; blinking blue during wake-time).
 
