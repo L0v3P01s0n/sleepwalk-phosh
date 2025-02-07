@@ -187,7 +187,7 @@ if [ "$1" == "start" ]; then
 	trap "kill $NOTIFICATION_WATCHER; $0 stop" EXIT
 	touch "$NOTIFICATION_FILE"
 	chmod 666 "$NOTIFICATION_FILE"
-	#sleep 60
+	sleep 60
 
 	if [ "$(pidof dbus-daemon)" != "" ]; then
                 DBUS="$(cat /proc/$(pidof -s dbus-daemon)/environ | tr '\0' '\n' | grep DBUS_SESSION_BUS_ADDRESS)"
